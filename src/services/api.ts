@@ -1,5 +1,4 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api/v1";
-console.log("MY API URL IS:", import.meta.env.VITE_API_BASE_URL);
 
 type FlagValue = string | number | boolean | Record<string, unknown> | null;
 
