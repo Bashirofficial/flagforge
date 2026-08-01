@@ -112,9 +112,7 @@ export const DashboardLayout: React.FC = () => {
                 />
               </svg>
             </div>
-            <span className="text-lg font-bold text-gray-900">
-              FeatureFlags
-            </span>
+            <span className="text-lg font-bold text-gray-900">FlagForge</span>
           </div>
         </div>
 
