@@ -27,7 +27,7 @@ const plans: Plan[] = [
     monthly: 29,
     annual: 24,
     blurb: "For product teams shipping every week.",
-    features: ["Unlimited flags", "Percentage rollouts", "Targeting rules", "10 seats", "90-day audit history"],
+    features: ["Unlimited flags", "10 seats", "90-day audit history", "Percentage rollouts (soon)", "Targeting rules (soon)"],
     cta: "Start 14-day trial",
     popular: true,
   },
@@ -36,7 +36,7 @@ const plans: Plan[] = [
     monthly: 99,
     annual: 79,
     blurb: "For orgs with many teams and strict reviews.",
-    features: ["Everything in Team", "Unlimited seats", "SSO & roles", "Unlimited audit history"],
+    features: ["Everything in Team", "Unlimited seats", "Unlimited audit history", "SSO (soon)"],
     cta: "Talk to us",
   },
 ];
@@ -104,12 +104,16 @@ export function Pricing() {
                   </p>
                   <p className={`mt-3 text-sm ${p.popular ? "text-white/80" : "text-ink-soft"}`}>{p.blurb}</p>
                   <ul className="mt-6 space-y-2.5 text-sm">
-                    {p.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2.5">
-                        <Check className={`size-4 shrink-0 ${p.popular ? "text-lime" : "text-ink"}`} />
-                        {f}
-                      </li>
-                    ))}
+                    {p.features.map((f) => {
+                      const soon = f.endsWith(" (soon)");
+                      return (
+                        <li key={f} className={`flex items-center gap-2.5 ${soon ? "opacity-60" : ""}`}>
+                          <Check className={`size-4 shrink-0 ${p.popular ? "text-lime" : "text-ink"} ${soon ? "opacity-0" : ""}`} />
+                          {soon ? f.replace(" (soon)", "") : f}
+                          {soon && <span className="font-mono text-[10px] uppercase tracking-[0.12em]">soon</span>}
+                        </li>
+                      );
+                    })}
                   </ul>
                   <ButtonLink
                     to="/register"

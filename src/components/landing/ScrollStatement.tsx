@@ -22,7 +22,7 @@ const chip = (children: ReactNode, className: string): Token => ({
 
 const tokens: Token[] = [
   "Whether", "you’re", chip(<MiniToggle />, "bg-surface shadow-card ring-1 ring-line"), "testing", "a", "risky", "refactor",
-  "or", "rolling", "a", "new", "pricing", "page", "out", "to", chip("5%", "bg-lime text-ink"), "of", "users,",
+  "or", "keeping", "an", "unfinished", "pricing", "page", chip("off", "bg-lime text-ink"), "in", "production,",
   chip(<><LogoMark className="size-[1em]" /> FlagForge</>, "bg-surface text-ink shadow-card ring-1 ring-line"),
   "turns", "every", "release", "into", "a", "reversible", "decision", "—", "in", chip("dev", "bg-cobalt text-white"),
   chip("staging", "bg-rose text-white"), "and", chip("prod", "bg-ember text-white"), "alike.",
@@ -37,7 +37,7 @@ export function ScrollStatement() {
       <p
         ref={ref}
         className="display mx-auto max-w-5xl text-center text-[clamp(1.85rem,4.4vw,3.6rem)] leading-[1.12]"
-        aria-label="Whether you’re testing a risky refactor or rolling a new pricing page out to 5% of users, FlagForge turns every release into a reversible decision — in dev, staging and prod alike."
+        aria-label="Whether you’re testing a risky refactor or keeping an unfinished pricing page off in production, FlagForge turns every release into a reversible decision — in dev, staging and prod alike."
       >
         {tokens.map((t, i) => {
           const on = i < lit;
