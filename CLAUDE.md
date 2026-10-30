@@ -9,6 +9,8 @@ Claude's job: build and improve the frontend UI. For the backend, Claude only **
 
 **`main` is the user's branch. `dev` (and feature branches off it) is Claude's working area.**
 
+> Enforced, not just instructed: `.claude/settings.json` deny rules + `.claude/hooks/protect-main.mjs` (PreToolUse) block these commands. If one is blocked, do **not** try to work around it — tell the user.
+
 **Always allowed (read-only, any branch):**
 `git status`, `git diff`, `git log`, `git show`, `git branch` (list), `git blame`, `git ls-files`, `git remote -v`, `git fetch`
 
