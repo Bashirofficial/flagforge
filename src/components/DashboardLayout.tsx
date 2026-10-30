@@ -13,7 +13,7 @@ export const DashboardLayout: React.FC = () => {
 
   const navItems = [
     {
-      to: "/",
+      to: "/app",
       icon: (
         <svg
           className="w-5 h-5"
@@ -32,7 +32,7 @@ export const DashboardLayout: React.FC = () => {
       label: "Home",
     },
     {
-      to: "/flags",
+      to: "/app/flags",
       icon: (
         <svg
           className="w-5 h-5"
@@ -51,7 +51,7 @@ export const DashboardLayout: React.FC = () => {
       label: "Feature Flags",
     },
     {
-      to: "/api-keys",
+      to: "/app/api-keys",
       icon: (
         <svg
           className="w-5 h-5"
@@ -70,7 +70,7 @@ export const DashboardLayout: React.FC = () => {
       label: "API Keys",
     },
     {
-      to: "/audit-logs",
+      to: "/app/audit-logs",
       icon: (
         <svg
           className="w-5 h-5"
@@ -122,7 +122,7 @@ export const DashboardLayout: React.FC = () => {
             <NavLink
               key={item.to}
               to={item.to}
-              end={item.to === "/"}
+              end={item.to === "/app"}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                   isActive

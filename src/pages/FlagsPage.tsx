@@ -79,7 +79,7 @@ export const FlagsPage: React.FC = () => {
               </p>
             </div>
             <Link
-              to="/flags/new"
+              to="/app/flags/new"
               className="group inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5"
             >
               <svg
@@ -178,7 +178,7 @@ export const FlagsPage: React.FC = () => {
             </p>
             {!searchQuery && (
               <Link
-                to="/flags/new"
+                to="/app/flags/new"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition-colors"
               >
                 <svg
@@ -203,7 +203,7 @@ export const FlagsPage: React.FC = () => {
             {filteredFlags.map((flag) => (
               <Link
                 key={flag.id}
-                to={`/flags/${flag.id}`}
+                to={`/app/flags/${flag.id}`}
                 className="group block bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-indigo-200"
               >
                 <div className="p-6">
