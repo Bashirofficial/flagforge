@@ -1,36 +1,41 @@
 import { useState } from "react";
 import { Check, Copy, Key, Shield } from "../ui/icons";
-import { Eyebrow, Reveal } from "./Reveal";
+import { Eyebrow, Reveal, SoonBadge } from "./Reveal";
+
+// TODO(backend): set these to the real public flag-read endpoint and auth header before launch.
+// They are the only place the landing page describes the client API.
+const API_URL = "https://api.flagforge.dev";
+const FLAG_PATH = "/api/v1/client/flags/new-checkout";
+const AUTH_HEADER = "Authorization: Bearer $FF_KEY";
+
+const [authName, authValue] = AUTH_HEADER.split(": ");
 
 const snippets = {
-  TypeScript: `import { FlagForge } from "@flagforge/sdk";
+  cURL: `curl ${API_URL}${FLAG_PATH} \\
+  -H "${AUTH_HEADER}"`,
+  JavaScript: `const res = await fetch("${API_URL}${FLAG_PATH}", {
+  headers: { "${authName}": \`${authValue.replace("$FF_KEY", "${process.env.FF_KEY}")}\` },
+});
+const { value } = await res.json();
 
-const ff = new FlagForge({ apiKey: process.env.FF_KEY });
+if (value === true) renderNewCheckout();
+else renderOldCheckout(); // always keep a fallback`,
+  Python: `import os, requests
 
-if (await ff.isEnabled("new-checkout", { userId })) {
-  return renderNewCheckout();
-}`,
-  Python: `from flagforge import FlagForge
-
-ff = FlagForge(api_key=os.environ["FF_KEY"])
-
-if ff.is_enabled("new-checkout", user_id=user.id):
-    return render_new_checkout()`,
-  Go: `ff := flagforge.New(os.Getenv("FF_KEY"))
-
-if ff.IsEnabled(ctx, "new-checkout", flagforge.User{ID: id}) {
-    return renderNewCheckout(w)
-}`,
-  cURL: `curl https://api.flagforge.dev/v1/evaluate \\
-  -H "Authorization: Bearer $FF_KEY" \\
-  -d '{ "flag": "new-checkout", "userId": "u_42" }'`,
+res = requests.get(
+    "${API_URL}${FLAG_PATH}",
+    headers={"${authName}": f"${authValue.replace("$FF_KEY", "{os.environ['FF_KEY']}")}"},
+    timeout=2,
+)
+value = res.json().get("value", False)  # fallback if missing`,
 };
 
 type Lang = keyof typeof snippets;
 
 // Tiny highlighter: strings, keywords, comments. Enough for marketing snippets.
 function highlight(code: string) {
-  const re = /("[^"]*"|'[^']*')|\b(import|from|const|if|await|return|new|func)\b|(\/\/.*$|#.*$)/gm;
+  // Comments only count after whitespace/line start, so "https://" isn't greyed out.
+  const re = /("[^"]*"|'[^']*'|`[^`]*`)|\b(import|from|const|if|else|await|return|new)\b|((?<=^|\s)(?:\/\/|#).*$)/gm;
   const out: (string | { t: string; c: string })[] = [];
   let last = 0;
   for (const m of code.matchAll(re)) {
@@ -43,12 +48,12 @@ function highlight(code: string) {
 }
 
 const points = [
-  { icon: <Shield className="size-4" />, title: "Safe by default", body: "Every check has a fallback value, so a network blip never takes your app down with it." },
-  { icon: <Key className="size-4" />, title: "Scoped API keys", body: "One key per environment, revocable in a click, fully audited." },
+  { icon: <Key className="size-4" />, title: "Scoped API keys", body: "One key per environment, shown once, revocable in a click, and every change is audited." },
+  { icon: <Shield className="size-4" />, title: "Plain HTTP, any language", body: "If it can make a request, it can read a flag. Keep a default in your code so a network blip never breaks your app." },
 ];
 
 export function Developers() {
-  const [lang, setLang] = useState<Lang>("TypeScript");
+  const [lang, setLang] = useState<Lang>("cURL");
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
@@ -67,13 +72,13 @@ export function Developers() {
         <Reveal>
           <Eyebrow accent="developers">For</Eyebrow>
           <h2 className="display mt-4 text-[clamp(2.25rem,5vw,4.25rem)]">
-            Five lines.
+            One request.
             <br />
             <span className="text-muted">Then forget it’s there.</span>
           </h2>
           <p className="mt-6 max-w-md text-lg leading-relaxed text-ink-soft">
-            Drop in the SDK, wrap your feature, and control it from the dashboard. Typed, tiny, and boring in the
-            best way.
+            Create an API key for an environment, read your flag over a simple REST API, and control it from the
+            dashboard from then on.
           </p>
           <ul className="mt-8 space-y-5">
             {points.map((p) => (
@@ -121,9 +126,10 @@ export function Developers() {
             <pre className="overflow-x-auto p-6 font-mono text-[13px] leading-[1.75] sm:p-8 sm:text-[14px]" role="tabpanel">
               <code>{highlight(snippets[lang])}</code>
             </pre>
-            <div className="flex items-center gap-2 border-t border-white/10 px-6 py-3 font-mono text-[11px] text-white/40">
-              <span className="size-1.5 rounded-full bg-mint" /> new-checkout → <span className="text-lime">true</span>
-              <span className="ml-auto">4ms</span>
+            <div className="flex flex-wrap items-center gap-2 border-t border-white/10 px-6 py-3 font-mono text-[11px] text-white/40">
+              <span className="size-1.5 rounded-full bg-mint" /> REST API — available today
+              <SoonBadge className="ml-auto text-white/60" />
+              <span className="text-white/50">Official SDKs</span>
             </div>
           </div>
         </Reveal>

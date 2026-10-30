@@ -2,6 +2,12 @@
 
 Newest entries on top. Format and rules: see `CLAUDE.md` §5.
 
+## 2026-10-30 — Honest landing copy  (branch: feat/honest-landing → dev)
+- Rule (user): landing page makes NO fake promises — paid launch. Only claim what `api.ts` supports; roadmap = `<SoonBadge />` (Reveal.tsx); no fake logos/customers/metrics.
+- Done: LogoStrip removed → `ValueProps.tsx` (4 true product facts). Hero pill/subtitle/cards, ScrollStatement, Features (rollouts+targeting = soon), UseCases (live first, canary/AB/beta = soon), Pricing ("(soon)" suffix), Developers (REST only, SDKs soon), FinalCta, Footer (dead links removed), nav "Docs"→"API".
+- Shipped today (per api.ts): bool/string/number/JSON flags, per-env values, isActive kill switch, envs CRUD, API keys per env (create/revoke/delete), audit logs w/ action filter.
+- Open: **Developers.tsx `API_URL`/`FLAG_PATH`/`AUTH_HEADER` are placeholders** — user confirmed a REST read endpoint exists but path/auth unknown. Need: Privacy + Terms + Contact pages before taking payments; pricing limits/trial/"unlimited evaluations" are business promises to confirm; verify `isActive=false` really disables flag in all envs.
+
 ## 2026-10-30 — Landing page  (branch: feat/landing-page → dev)
 - Done: public landing at `/` (`src/pages/LandingPage.tsx`, sections in `src/components/landing/`). Dashboard moved to `/app/*` (all links updated). Shared UI: `components/ui/{Button,Switch,Logo,icons}.tsx`; hooks `hooks/useInView.ts` (useInView, useScrollProgress).
 - Design system: tokens in `src/index.css` `@theme` — canvas #f4f4f1, ink, muted, lime/ember/cobalt/rose/mint accents; font Geist + Geist Mono (Google Fonts in index.html); `display` utility for headlines (two-tone: ink line + `text-muted` line); `.reveal` scroll-in animation; reduced-motion respected.

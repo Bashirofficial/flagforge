@@ -4,7 +4,7 @@ import { FinalCta } from "../components/landing/FinalCta";
 import { Footer } from "../components/landing/Footer";
 import { Hero } from "../components/landing/Hero";
 import { LiveDemo } from "../components/landing/LiveDemo";
-import { LogoStrip } from "../components/landing/LogoStrip";
+import { ValueProps } from "../components/landing/ValueProps";
 import { MarqueeBand } from "../components/landing/MarqueeBand";
 import { Navbar } from "../components/landing/Navbar";
 import { Pricing } from "../components/landing/Pricing";
@@ -23,7 +23,7 @@ export function LandingPage() {
       <Navbar />
       <main id="main">
         <Hero />
-        <LogoStrip />
+        <ValueProps />
         <ScrollStatement />
         <LiveDemo />
         <Features />

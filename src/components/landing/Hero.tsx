@@ -40,36 +40,33 @@ const cards: CardSpec[] = [
     on: false,
     body: (on) => (
       <div>
-        <p className="display text-[clamp(1.6rem,2.6vw,2.2rem)]">{on ? "Live" : "Paused"}</p>
-        <p className="mt-1 text-[11px] text-white/55">{on ? "Serving 100% traffic" : "Rolled back in 38ms"}</p>
+        <p className="display text-[clamp(1.6rem,2.6vw,2.2rem)]">{on ? "Live" : "Off"}</p>
+        <p className="mt-1 text-[11px] text-white/55">{on ? "Serving all environments" : "Killed — no redeploy"}</p>
       </div>
     ),
   },
   {
     flag: "ai-search",
-    type: "Rollout",
+    type: "Boolean",
     tone: "cobalt",
     on: true,
     tag: { handle: "@maya · PM", className: "bg-cobalt text-white" },
-    body: (on) => {
-      const pct = on ? 25 : 0;
-      return (
-        <div className="flex items-end justify-between">
-          <p className="display text-[clamp(1.9rem,3vw,2.6rem)]">
-            {pct}
-            <span className="text-white/50">%</span>
-          </p>
-          <svg viewBox="0 0 36 36" className="size-10 -rotate-90">
-            <circle cx="18" cy="18" r="15" fill="none" stroke="rgb(255 255 255/0.2)" strokeWidth="4" />
-            <circle
-              cx="18" cy="18" r="15" fill="none" stroke="var(--color-lime)" strokeWidth="4" strokeLinecap="round"
-              strokeDasharray={`${(pct / 100) * 94.2} 94.2`}
-              className="transition-[stroke-dasharray] duration-700"
-            />
-          </svg>
-        </div>
-      );
-    },
+    body: (on) => (
+      <ul className="space-y-1.5 text-[11px]">
+        {[
+          ["development", true],
+          ["staging", on],
+          ["production", false],
+        ].map(([env, val]) => (
+          <li key={String(env)} className="flex items-center justify-between">
+            <span className="text-white/60">{env}</span>
+            <span className={`rounded-full px-1.5 py-0.5 font-mono text-[9.5px] ${val ? "bg-lime text-ink" : "bg-white/15"}`}>
+              {val ? "on" : "off"}
+            </span>
+          </li>
+        ))}
+      </ul>
+    ),
   },
   {
     flag: "pricing-banner",
@@ -99,29 +96,20 @@ const cards: CardSpec[] = [
     tag: { handle: "@devon · eng", className: "bg-ink text-lime" },
     body: (on) => (
       <div>
-        <div className="flex items-baseline justify-between">
-          <p className="display text-[clamp(1.6rem,2.6vw,2.2rem)]">{on ? "+12.4%" : "—"}</p>
-          <p className="hidden text-[10px] text-ink/50 sm:block">conversion</p>
-        </div>
-        <svg viewBox="0 0 120 32" className="mt-1 h-8 w-full" preserveAspectRatio="none">
-          <path
-            d={on ? "M0 26 L15 24 L30 25 L45 18 L60 20 L75 12 L90 13 L105 6 L120 4" : "M0 20 L120 20"}
-            fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-            className="transition-all duration-700"
-          />
-        </svg>
+        <p className="display text-[clamp(1.6rem,2.6vw,2.2rem)]">{on ? "Enabled" : "Disabled"}</p>
+        <p className="mt-1 text-[11px] text-ink/55">{on ? "New flow for all users" : "Old flow restored"}</p>
       </div>
     ),
   },
   {
-    flag: "holiday-theme",
-    type: "Scheduled",
+    flag: "site-theme",
+    type: "String",
     tone: "ember",
     on: false,
     body: (on) => (
       <div>
-        <p className="font-mono text-[11px] text-white/70">Dec 01 → Jan 02</p>
-        <p className="display mt-1 text-[clamp(1.4rem,2.2vw,1.9rem)]">{on ? "Active" : "Queued"}</p>
+        <p className="font-mono text-[11px] text-white/70">value</p>
+        <p className="display mt-1 text-[clamp(1.4rem,2.2vw,1.9rem)]">“{on ? "winter" : "default"}”</p>
       </div>
     ),
   },
@@ -231,8 +219,8 @@ export function Hero() {
           className="group inline-flex animate-fade-up items-center gap-2 rounded-full bg-surface py-1 pl-1 pr-3 text-[13px] text-ink-soft shadow-card ring-1 ring-line transition hover:ring-faint"
           style={stagger(0)}
         >
-          <span className="rounded-full bg-lime px-2 py-0.5 text-[11px] font-medium text-ink">New</span>
-          Percentage rollouts per environment
+          <span className="rounded-full bg-lime px-2 py-0.5 text-[11px] font-medium text-ink">Included</span>
+          Kill switch, remote config &amp; audit log
           <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
         </a>
 
@@ -246,8 +234,8 @@ export function Hero() {
           className="mx-auto mt-6 max-w-xl animate-fade-up text-[clamp(1rem,1.4vw,1.125rem)] leading-relaxed text-ink-soft"
           style={stagger(2)}
         >
-          FlagForge is feature-flag infrastructure for teams that release daily. Toggle, target and roll back in
-          milliseconds — without a redeploy.
+          FlagForge lets you turn features on, off, or reconfigure them per environment — from a dashboard, without
+          a redeploy.
         </p>
 
         <div className="mt-9 flex animate-fade-up flex-wrap items-center justify-center gap-3" style={stagger(3)}>

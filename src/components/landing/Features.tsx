@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useInView } from "../../hooks/useInView";
 import { Switch } from "../ui/Switch";
 import { Bolt, Clock, Layers, Target } from "../ui/icons";
-import { Eyebrow, Reveal } from "./Reveal";
+import { Eyebrow, Reveal, SoonBadge } from "./Reveal";
 
 function Card({ className = "", children, delay = 0 }: { className?: string; children: ReactNode; delay?: number }) {
   return (
@@ -12,10 +12,13 @@ function Card({ className = "", children, delay = 0 }: { className?: string; chi
   );
 }
 
-function CardTitle({ icon, title, body, light }: { icon: ReactNode; title: string; body: string; light?: boolean }) {
+function CardTitle({ icon, title, body, light, soon }: { icon: ReactNode; title: string; body: string; light?: boolean; soon?: boolean }) {
   return (
     <div>
-      <span className={`grid size-9 place-items-center rounded-full ${light ? "bg-white/10" : "bg-canvas"}`}>{icon}</span>
+      <div className="flex items-center justify-between gap-3">
+        <span className={`grid size-9 place-items-center rounded-full ${light ? "bg-white/10" : "bg-canvas"}`}>{icon}</span>
+        {soon && <SoonBadge />}
+      </div>
       <h3 className="mt-5 text-xl font-medium tracking-[-0.03em]">{title}</h3>
       <p className={`mt-1.5 max-w-sm text-[15px] leading-relaxed ${light ? "text-white/65" : "text-ink-soft"}`}>{body}</p>
     </div>
@@ -47,9 +50,10 @@ function RolloutCard() {
       <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-center">
         <div>
           <CardTitle
+            soon
             icon={<Layers className="size-4.5" />}
             title="Percentage rollouts"
-            body="Release to 1%, watch your metrics, then dial it up. Users are bucketed consistently, so nobody flickers between versions."
+            body="Release to 1%, watch your metrics, then dial it up — with users bucketed consistently. Drag the slider for a preview of how it will work."
           />
           <div className="mt-6">
             <div className="flex items-baseline justify-between">
@@ -125,7 +129,7 @@ function KillSwitchCard() {
               <span className={`absolute inset-0 animate-ping rounded-full ${live ? "bg-mint" : "bg-ember"} opacity-60`} />
               <span className={`relative size-2 rounded-full ${live ? "bg-mint" : "bg-ember"}`} />
             </span>
-            {live ? "Serving traffic" : "Disabled in 38ms"}
+            {live ? "Serving traffic" : "Disabled everywhere"}
           </p>
         </div>
         <Switch checked={live} onChange={setLive} label="Toggle payments-v2" tone="lime" />
@@ -145,6 +149,7 @@ function TargetingCard() {
     <Card delay={0} className="bg-cobalt text-white md:col-span-2">
       <CardTitle
         light
+        soon
         icon={<Target className="size-4.5" />}
         title="Targeting rules"
         body="Ship to the users who should see it — by plan, region, version or any attribute you send."
@@ -196,12 +201,13 @@ function EnvironmentsCard() {
 }
 
 /* ---------- Audit log ---------- */
+// Only actions the product actually records (flags, values, API keys).
 const events = [
   ["maya", "enabled", "ai-search", "staging"],
-  ["devon", "rolled out", "new-checkout → 50%", "prod"],
-  ["sre-bot", "disabled", "payments-v2", "prod"],
-  ["lena", "created", "holiday-theme", "dev"],
-  ["omar", "updated rule on", "reco-config", "prod"],
+  ["devon", "changed value of", "rate-limit-rpm", "prod"],
+  ["omar", "disabled", "payments-v2", "prod"],
+  ["lena", "created", "site-theme", "dev"],
+  ["devon", "updated", "reco-config", "prod"],
   ["maya", "revoked key", "ff_prod_c3d4", "prod"],
 ];
 

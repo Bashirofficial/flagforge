@@ -13,7 +13,7 @@ const palette = [
 ];
 const initials = ["MK", "DA", "LS", "OR", "JT", "AN", "PV", "SB", "KE", "RH", "YT", "CN", "IW", "FG", "HL", "EZ", "BM", "TQ"];
 
-// Two gently drifting arcs of teammates, like the reference's avatar crowd.
+// Two gently drifting arcs of (illustrative) teammates — decoration, not customers.
 function AvatarArc({ flip }: { flip?: boolean }) {
   return (
     <div className={`relative h-28 sm:h-36 ${flip ? "rotate-180" : ""}`} aria-hidden="true">
@@ -49,12 +49,13 @@ export function FinalCta() {
         <Reveal className="py-10 text-center">
           <Sparkle className="mx-auto size-5 text-ink" />
           <h2 className="display mx-auto mt-6 max-w-3xl text-[clamp(2.5rem,6vw,5rem)]">
-            Join the teams that
+            Bring your team.
             <br />
-            <span className="text-muted">ship without fear.</span>
+            <span className="text-muted">Ship without fear.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-md text-lg text-ink-soft">
-            Set up your first flag in under five minutes. Free forever for small teams.
+            Create a project, add a flag, flip it from the dashboard. Start on the free plan — upgrade when your team
+            needs more.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <ButtonLink to="/register" size="lg">

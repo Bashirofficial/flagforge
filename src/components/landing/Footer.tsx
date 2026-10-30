@@ -3,10 +3,12 @@ import { Logo } from "../ui/Logo";
 import { ArrowUpRight } from "../ui/icons";
 import { Reveal } from "./Reveal";
 
+// Only link to things that exist. Add Privacy / Terms / Contact here once those pages are live
+// (required before taking payments).
 const columns = [
   { title: "Product", links: [["Features", "#features"], ["Pricing", "#pricing"], ["Use cases", "#use-cases"], ["Live demo", "#demo"]] },
-  { title: "Developers", links: [["SDKs", "#developers"], ["API reference", "#developers"], ["Status", "#"], ["Changelog", "#"]] },
-  { title: "Company", links: [["About", "#"], ["Careers", "#"], ["Contact", "#"], ["Privacy", "#"]] },
+  { title: "Developers", links: [["REST API", "#developers"], ["API keys", "#developers"]] },
+  { title: "Account", links: [["Create account", "/register"], ["Sign in", "/login"]] },
 ];
 
 export function Footer() {
@@ -26,13 +28,13 @@ export function Footer() {
               <span className="ml-auto size-12 rounded-full bg-lime transition-transform duration-500 group-hover:-translate-x-12" />
             </div>
             <p className="display relative text-4xl sm:text-5xl">
-              Read
+              Read flags
               <br />
-              the docs
+              from your app
             </p>
-            <p className="relative mt-3 max-w-xs text-white/80">Quickstarts, SDK guides and the full REST reference.</p>
+            <p className="relative mt-3 max-w-xs text-white/80">One API key per environment and a single REST request.</p>
             <span className="relative mt-6 inline-flex w-fit items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-medium text-ink">
-              Open docs <ArrowUpRight className="size-4" />
+              See the API <ArrowUpRight className="size-4" />
             </span>
           </a>
         </Reveal>
@@ -72,9 +74,15 @@ export function Footer() {
               <ul className="mt-4 space-y-2.5">
                 {col.links.map(([label, href]) => (
                   <li key={label}>
-                    <a href={href} className="text-sm text-white/80 transition hover:text-lime">
-                      {label}
-                    </a>
+                    {href.startsWith("/") ? (
+                      <Link to={href} className="text-sm text-white/80 transition hover:text-lime">
+                        {label}
+                      </Link>
+                    ) : (
+                      <a href={href} className="text-sm text-white/80 transition hover:text-lime">
+                        {label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
