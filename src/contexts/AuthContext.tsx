@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
-import { apiService } from "../services/api";
+import { apiService, USE_MOCKS } from "../services/api";
+import { mockUser } from "../services/mock/data";
 
 interface User {
   id: string;
@@ -22,7 +23,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [token, setToken] = useState<string | null>(() => {
-    const saved = localStorage.getItem("authToken");
+    // Mock mode: auto sign-in so protected pages render without a backend
+    const saved =
+      localStorage.getItem("authToken") ?? (USE_MOCKS ? "mock-access-token" : null);
     if (saved) apiService.setToken(saved); // Sync the API service immediately
     return saved;
   });
@@ -30,10 +33,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem("authUser");
     try {
-      return saved && saved !== "undefined" ? JSON.parse(saved) : null;
+      if (saved && saved !== "undefined") return JSON.parse(saved);
     } catch {
-      return null;
+      // fall through
     }
+    return USE_MOCKS ? mockUser : null;
   });
 
   const [isLoading, setIsLoading] = useState(false);

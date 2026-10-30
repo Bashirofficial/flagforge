@@ -1,4 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api/v1";
+export const USE_MOCKS = import.meta.env.VITE_USE_MOCKS === "true";
 
 type FlagValue = string | number | boolean | Record<string, unknown> | null;
 
@@ -13,6 +14,11 @@ class ApiService {
     endpoint: string,
     options: RequestInit = {},
   ): Promise<T> {
+    if (USE_MOCKS) {
+      const { mockRequest } = await import("./mock/handlers");
+      return mockRequest(endpoint, options) as Promise<T>;
+    }
+
     const headers: HeadersInit = {
       "Content-Type": "application/json",
       ...(options.headers as Record<string, string>),
