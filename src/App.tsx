@@ -5,6 +5,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { DashboardLayout } from "./components/DashboardLayout";
 import { HomePage } from "./pages/HomePage";
+import { LandingPage } from "./pages/LandingPage";
 import { FlagsPage } from "./pages/FlagsPage";
 import { FlagDetailPage } from "./pages/FlagDetailPage";
 import { CreateFlagPage } from "./pages/CreateFlagPage";
@@ -18,8 +19,9 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route
-            path="/"
+            path="/app"
             element={
               <ProtectedRoute>
                 <DashboardLayout />

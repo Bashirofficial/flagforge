@@ -193,7 +193,7 @@ export const FlagDetailPage: React.FC = () => {
             The feature flag you're looking for doesn't exist.
           </p>
           <Link
-            to="/flags"
+            to="/app/flags"
             className="block w-full px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800 text-center"
           >
             Back to Flags
@@ -208,7 +208,7 @@ export const FlagDetailPage: React.FC = () => {
       <div className="max-w-6xl mx-auto p-8">
         {/* Back Button */}
         <Link
-          to="/flags"
+          to="/app/flags"
           className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-6 group"
         >
           <svg

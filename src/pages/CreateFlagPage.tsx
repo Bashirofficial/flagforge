@@ -36,7 +36,7 @@ export const CreateFlagPage: React.FC = () => {
 
     try {
       await apiService.createFlag({ key, description });
-      navigate('/flags');
+      navigate('/app/flags');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create flag');
     } finally {
@@ -52,7 +52,7 @@ export const CreateFlagPage: React.FC = () => {
   return (
     <div className="p-8">
       <div className="mb-6">
-        <Link to="/flags" className="text-sm text-gray-600 hover:text-gray-900">
+        <Link to="/app/flags" className="text-sm text-gray-600 hover:text-gray-900">
           ← Back to Flags
         </Link>
       </div>
@@ -109,7 +109,7 @@ export const CreateFlagPage: React.FC = () => {
               {isLoading ? 'Creating...' : 'Create Flag'}
             </button>
             <Link
-              to="/flags"
+              to="/app/flags"
               className="px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded hover:bg-gray-200 transition-colors"
             >
               Cancel
